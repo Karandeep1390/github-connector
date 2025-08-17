@@ -104,8 +104,8 @@ fetchRepositoriesPage(username, 1, pageSize)
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd github-activity-connector
+git clone https://github.com/Karandeep1390/github-connector.git
+cd github-connector
 ```
 
 ### 2. Configure GitHub Access Token

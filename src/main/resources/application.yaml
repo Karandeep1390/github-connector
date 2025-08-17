@@ -1,0 +1,42 @@
+github:
+  api-url: https://api.github.com
+  token: ${GITHUB_TOKEN:your-github-token-here}
+  default-page-size: 30
+  max-retries: 3
+  retry-delay-ms: 1000
+  timeoutseconds: 180
+
+server:
+  port: 8080
+
+spring:
+  webflux:
+    timeout: 180s
+
+logging:
+  level:
+    com.connector.github: INFO
+    org.springframework.web.reactive.function.client: DEBUG
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+resilience4j:
+  retry:
+    instances:
+      github-api:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
